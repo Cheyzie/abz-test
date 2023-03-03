@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('email');
             $table->decimal('salary');
             $table->string('photo');
-            $table->foreignId('head_id')->constrained('employees');
-            $table->foreignId('admin_created_id')->constrained('users')->nullOnDelete();
-            $table->foreignId('admin_updated_id')->constrained('users')->nullOnDelete();
+            $table->foreignId('head_id')->nullable()->constrained('employees')->nullOnDelete();
+            $table->foreignId('admin_created_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('admin_updated_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }

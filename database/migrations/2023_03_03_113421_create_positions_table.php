@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('admin_created_id')->constrained('users')->nullOnDelete();
-            $table->foreignId('admin_updated_id')->constrained('users')->nullOnDelete();
+            $table->foreignId('admin_created_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('admin_updated_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }
