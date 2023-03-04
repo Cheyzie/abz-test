@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     use HasFactory;
+
+    protected $with = [
+        'position',
+    ];
+
+    public function position() {
+        return $this->belongsTo(Position::class);
+    }
 }
