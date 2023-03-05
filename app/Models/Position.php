@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Position extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name'
+    ];
+
+    protected $casts = [
+        'created_at' => 'date:d.m.Y',
+        'updated_at' => 'date:d.m.Y',
+    ];
 }

@@ -300,7 +300,7 @@ return [
         ],
         [
             'text'        => 'Positions',
-            'url'         => 'admin/pages',
+            'url'         => 'admin/positions',
             'icon'        => 'fas fa-fw fa-book',
         ]
     ],
