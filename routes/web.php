@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-})->middleware('auth');
+    return redirect('/admin');
+});
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
@@ -29,6 +29,10 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return view('admin.welcome');
+    });
+
     Route::get('/employees', [EmployeeController::class, 'index']);
     Route::get('/employees/create', [EmployeeController::class, 'create']);
     Route::post('/employees', [EmployeeController::class, 'store']);
