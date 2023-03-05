@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\DataTables\PositionsDataTable;
 use App\Http\Requests\PositionCreateRequest;
+use App\Http\Requests\PositionUpdateRequest;
 use App\Models\Position;
-use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
@@ -28,5 +28,21 @@ class PositionController extends Controller
         $position->save();
 
         return redirect('/admin/employees');
+    }
+
+    public function edit(Position $position) {
+        return view('admin.positions.edit', ['position' => $position]);
+    }
+
+    public function update(Position $position, PositionUpdateRequest $request) {
+        $data = $request->validated();
+
+        $data['admin_updated_id'] = $request->user()->id;
+
+        $position->fill($data);
+
+        $position->save();
+
+        return redirect('/admin/positions');
     }
 }

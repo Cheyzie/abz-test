@@ -10,7 +10,9 @@ class Position extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'admin_updated_id',
+        'admin_created_id',
     ];
 
     protected $casts = [

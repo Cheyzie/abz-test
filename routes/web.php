@@ -42,6 +42,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/positions', [PositionController::class, 'index']);
     Route::get('/positions/create', [PositionController::class, 'create']);
     Route::post('/positions', [PositionController::class, 'store']);
+    Route::get('/positions/{position}/edit', [PositionController::class, 'edit'])
+        ->name('admin.position.edit');
+    Route::patch('/positions/{position}', [PositionController::class, 'update'])
+        ->name('admin.position.update');
 
     Route::get('autocomplete/employees', [AutoCompleteController::class, 'employees'])
         ->name('autocomplete.employees');
