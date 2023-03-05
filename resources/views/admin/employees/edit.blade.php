@@ -34,7 +34,7 @@
             <div class="alert alert-danger"> {{$message}} </div>
             @enderror
             <small id="nameDescription" class="form-text text-muted justify-content-end text-right">
-                0/256
+                {{strlen(old('full_name') ?? $employee->full_name)}}/256
             </small>
         </div>
 
