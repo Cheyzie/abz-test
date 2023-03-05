@@ -27,7 +27,7 @@ class PositionController extends Controller
 
         $position->save();
 
-        return redirect('/admin/employees');
+        return redirect('/admin/positions');
     }
 
     public function edit(Position $position) {
@@ -44,5 +44,11 @@ class PositionController extends Controller
         $position->save();
 
         return redirect('/admin/positions');
+    }
+
+    public function destroy(Position $position) {
+        $position->delete();
+
+        return response()->json(["deleted" => 1]);
     }
 }

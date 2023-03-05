@@ -46,6 +46,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         ->name('admin.position.edit');
     Route::patch('/positions/{position}', [PositionController::class, 'update'])
         ->name('admin.position.update');
+    Route::delete('/positions/{position}', [PositionController::class, 'destroy'])
+        ->name('admin.position.destroy');
 
     Route::get('autocomplete/employees', [AutoCompleteController::class, 'employees'])
         ->name('autocomplete.employees');
