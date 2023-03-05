@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\EmployeesDataTable;
 use App\Http\Requests\EmployeeCreateRequest;
+use App\Http\Requests\EmployeeUpdateRequest;
 use App\Models\Employee;
 use App\Models\Position;
 use App\Services\PhotoService;
@@ -21,11 +22,12 @@ class EmployeeController extends Controller
 
     public function store(EmployeeCreateRequest $request) {
         $data = $request->validated();
+        if(key_exists('head', $data)) {
+            $head = Employee::where('full_name', $data['head'])->first();
 
-        $head = Employee::where('full_name',$data['head'])->first();
-
-        unset($data['head']);
-        $data['head_id'] = $head->id;
+            unset($data['head']);
+            $data['head_id'] = $head->id;
+        }
 
         if(key_exists('photo', $data)) {
             $data['photo'] = PhotoService::save($request->file('photo'));
@@ -39,6 +41,33 @@ class EmployeeController extends Controller
         $employee->save();
 
         return redirect(url('/admin/employees'));
+    }
+
+    public function edit(Employee $employee) {
+        $positions = Position::all();
+        return view('admin.employees.edit', ['employee' => $employee, 'positions' => $positions]);
+    }
+
+    public function update(Employee $employee, EmployeeUpdateRequest $request) {
+        $data = $request->validated();
+
+        if(key_exists('head', $data)) {
+            $head = Employee::where('full_name', $data['head'])->first();
+            unset($data['head']);
+            $data['head_id'] = $head->id;
+        }
+
+        if(key_exists('photo', $data)) {
+            $data['photo'] = PhotoService::save($request->file('photo'));
+        }
+
+        $data['admin_updated_id'] = $request->user()->id;
+
+        $employee->fill($data);
+
+        $employee->save();
+
+        return redirect('admin/employees');
     }
 
     public function destroy(Employee $employee) {

@@ -18,6 +18,7 @@ class Employee extends Model
         'phone_number',
         'salary',
         'photo',
+        'head_id',
         'admin_created_id',
         'admin_updated_id',
         'position_id',
@@ -25,6 +26,7 @@ class Employee extends Model
 
     protected $with = [
         'position',
+        'head'
     ];
 
     protected $casts = [
@@ -42,5 +44,9 @@ class Employee extends Model
 
     public function position() {
         return $this->belongsTo(Position::class);
+    }
+
+    public function head() {
+        return $this->belongsTo(Employee::class, 'head_id');
     }
 }

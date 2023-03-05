@@ -17,6 +17,10 @@ class PhotoService {
         return $path.$filename;
     }
 
+    public static function delete($name) {
+        Storage::delete($name);
+    }
+
     public static function generateFileName($extension):string {
         return Uuid::uuid4().'.'.$extension;
     }

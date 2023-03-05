@@ -31,8 +31,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/employees', [EmployeeController::class, 'index']);
     Route::get('/employees/create', [EmployeeController::class, 'create']);
     Route::post('/employees', [EmployeeController::class, 'store']);
-    Route::get('/employees/{employee}/edit', function (Employee $employee) { return $employee;})
+    Route::get('/employees/{employee}/edit', [EmployeeController::class, 'edit'])
         ->name('admin.employees.edit');
+    Route::patch('/employees/{employee}', [EmployeeController::class, 'update'])
+        ->name('admin.employees.update');
     Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])
         ->name('admin.employees.destroy');
 
