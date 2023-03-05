@@ -43,6 +43,9 @@ class PositionsDataTable extends DataTable
     {
         return $this->builder()
                     ->setTableId('positions-table')
+                    ->parameters([
+                        'autoWidth' => false,
+                    ])
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy(1)
