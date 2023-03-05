@@ -40,6 +40,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         ->name('admin.employees.destroy');
 
     Route::get('/positions', [PositionController::class, 'index']);
+    Route::get('/positions/create', [PositionController::class, 'create']);
+    Route::post('/positions', [PositionController::class, 'store']);
 
     Route::get('autocomplete/employees', [AutoCompleteController::class, 'employees'])
         ->name('autocomplete.employees');
