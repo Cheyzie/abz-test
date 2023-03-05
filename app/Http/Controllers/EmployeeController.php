@@ -40,4 +40,10 @@ class EmployeeController extends Controller
 
         return redirect(url('/admin/employees'));
     }
+
+    public function destroy(Employee $employee) {
+        $employee->delete();
+
+        return response()->json(['deleted'=>1]);
+    }
 }

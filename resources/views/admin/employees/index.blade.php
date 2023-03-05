@@ -12,7 +12,6 @@
 @section('content')
     <div id="deleteModal" class="modal">
 
-        <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-content__header modal-header">
                 <div class="modal-header__title">Remove Employee</div>
@@ -26,28 +25,12 @@
         </div>
 
     </div>
-    <script>
-        function deleteHandle(e) {
-            let modal = document.getElementById("deleteModal");
 
-            let spans = [
-                document.getElementsByClassName("modal-header__close")[0],
-                document.getElementsByClassName("modal-buttons__cancel")[0]
-            ];
-            spans.forEach((el) => el.onclick = function() {
-                modal.style.display = "none";
-            });
-
-            let content = document.getElementsByClassName("modal-content__text")[0];
-            content.innerHTML = 'Are you sure you want to delete employee ' + e.getAttribute('data-name');
-            modal.style.display = "block";
-            console.log(e.getAttribute('data-id'));
-        }
-    </script>
-    {{ $dataTable->table(['class' => 'table table-striped']) }}
+    {{ $dataTable->table(['class' => 'table table-striped', 'id' => 'dataTable']) }}
 @stop
 
 @section('css')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         .modal {
             display: none; /* Hidden by default */
@@ -62,7 +45,6 @@
             background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
         }
 
-        /* Modal Content/Box */
         .modal-content {
             background-color: #fefefe;
             margin: 15% auto; /* 15% from the top and centered */
@@ -114,4 +96,41 @@
 
 @section('js')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+    <script>
+        function deleteHandle(e) {
+            let modal = document.getElementById("deleteModal");
+
+            let spans = [
+                document.getElementsByClassName("modal-header__close")[0],
+                document.getElementsByClassName("modal-buttons__cancel")[0]
+            ];
+            spans.forEach((el) => el.onclick = function() {
+                modal.style.display = "none";
+            });
+
+            let deleteBtn = document.getElementsByClassName('modal-buttons__delete')[0];
+            let url = '{{url('/admin/employees')}}'+'/'+e.getAttribute('data-id');
+            deleteBtn.onclick = () => {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: url,
+                    method: 'delete',
+                    success: (result) => {
+                        if(result.deleted ) {
+                            modal.style.display = "none";
+                            $('#dataTable').DataTable().ajax.reload();
+                        }
+                    }
+                })
+            };
+
+            let content = document.getElementsByClassName("modal-content__text")[0];
+            content.innerHTML = 'Are you sure you want to delete employee ' + e.getAttribute('data-name');
+            modal.style.display = "block";
+        }
+    </script>
 @stop

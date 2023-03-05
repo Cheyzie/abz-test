@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AutoCompleteController;
 use App\Http\Controllers\EmployeeController;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,8 +31,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/employees', [EmployeeController::class, 'index']);
     Route::get('/employees/create', [EmployeeController::class, 'create']);
     Route::post('/employees', [EmployeeController::class, 'store']);
-    Route::get('/employees/{employee}', function (\App\Models\Employee $employee) { return $employee;})
+    Route::get('/employees/{employee}/edit', function (Employee $employee) { return $employee;})
         ->name('admin.employees.edit');
+    Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])
+        ->name('admin.employees.destroy');
 
     Route::get('autocomplete/employees', [AutoCompleteController::class, 'employees'])
         ->name('autocomplete.employees');
