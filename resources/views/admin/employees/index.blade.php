@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="header">
         <h1>Employees</h1>
-        <a href="#" class="btn bg-dark add-employee">Add employee</a>
+        <a href="{{url('/admin/employees/create')}}" class="btn bg-dark add-employee">Add employee</a>
     </div>
 @stop
 

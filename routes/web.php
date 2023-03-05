@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AutoCompleteController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,13 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('admin/employees', [EmployeeController::class, 'index']);
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/employees', [EmployeeController::class, 'index']);
+    Route::get('/employees/create', [EmployeeController::class, 'create']);
+    Route::post('/employees', [EmployeeController::class, 'store']);
+    Route::get('/employees/{employee}', function (\App\Models\Employee $employee) { return $employee;})
+        ->name('admin.employees.edit');
 
-Route::get('admin/employees/{employee}', function (\App\Models\Employee $employee) { return $employee;})
-    ->name('admin.employees.edit');
+    Route::get('autocomplete/employees', [AutoCompleteController::class, 'employees'])
+        ->name('autocomplete.employees');
+});
