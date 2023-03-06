@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\PhotoService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,10 @@ class Employee extends Model
         'position_id',
     ];
 
+    protected $appends = [
+      'photo_url'
+    ];
+
     protected $with = [
         'position',
         'head'
@@ -42,10 +47,13 @@ class Employee extends Model
         });
     }
 
-    protected function photo(): Attribute
+    protected function photoUrl(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value) => ($value && Storage::has($value)) ? asset(Storage::url($value)) : $value,
+            get: fn (?string $value, array $attributes) =>
+            ($attributes['photo'] && Storage::has($attributes['photo']))
+                ? asset(Storage::url($attributes['photo']))
+                : $attributes['photo'],
         );
     }
 

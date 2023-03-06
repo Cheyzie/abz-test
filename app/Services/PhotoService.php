@@ -17,8 +17,8 @@ class PhotoService {
         return $path.$filename;
     }
 
-    public static function delete($name) {
-        Storage::delete($name);
+    public static function delete($name, $storage = 'local') {
+        Storage::disk($storage)->delete($name);
     }
 
     public static function generateFileName($extension):string {
