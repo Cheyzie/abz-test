@@ -35,6 +35,13 @@ class Employee extends Model
         'updated_at' => 'date:d.m.Y',
     ];
 
+    protected static function booted()
+    {
+        static::deleting(function (Employee $employee) {
+            $employee->subordinate()->update(['head_id'=> $employee->head?->id]);
+        });
+    }
+
     protected function photo(): Attribute
     {
         return Attribute::make(
@@ -48,5 +55,9 @@ class Employee extends Model
 
     public function head() {
         return $this->belongsTo(Employee::class, 'head_id');
+    }
+
+    public function subordinate() {
+        return $this->hasMany(Employee::class, 'head_id');
     }
 }
