@@ -64,7 +64,8 @@ class EmployeesDataTable extends DataTable
             Column::make('hire_date'),
             Column::make('phone_number'),
             Column::make('email'),
-            Column::make('salary'),
+            Column::make('salary')
+                ->render('() => `$${full.salary}`'),
             Column::computed('actions')
                 ->exportable(false)
                 ->printable(false)
