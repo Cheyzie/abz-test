@@ -5,6 +5,7 @@ namespace App\Rules;
 use App\Models\Employee;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Log;
 
 class SubordinationLevels implements ValidationRule
 {
@@ -15,8 +16,8 @@ class SubordinationLevels implements ValidationRule
     ) {}
 
     private function countHeadsLevel(Employee $employee):int {
-        $heads_level = 1;
-        $head = $employee->head;
+        $heads_level = 0;
+        $head = $employee;
         while ($head) {
             $heads_level++;
             $head = $head->head;
@@ -26,7 +27,8 @@ class SubordinationLevels implements ValidationRule
 
     private function countSubordinateLevel(Employee $employee, $acc = 0):int {
         $subordinateLevel = $acc;
-        foreach ($employee->subordinates() as $subordinate) {
+        foreach ($employee->subordinates as $subordinate) {
+
             $newSubordinateLevel = $this->countSubordinateLevel($subordinate, ++$acc);
 
             if ($newSubordinateLevel > $subordinateLevel)
@@ -36,6 +38,19 @@ class SubordinationLevels implements ValidationRule
                 return $subordinateLevel;
         }
         return $subordinateLevel;
+    }
+
+    public function checkCycle(Employee $newHead): bool {
+        $head = $newHead;
+
+        while ($head) {
+            if ($head->id == $this->currentEmployee->id) {
+                return true;
+            }
+            $head = $head->head;
+        }
+
+        return false;
     }
 
     /**
@@ -49,8 +64,12 @@ class SubordinationLevels implements ValidationRule
 
         $this->levels -= $this->countHeadsLevel($employee);
 
-        if($this->levels > 1 && $this->currentEmployee)
+        if($this->levels > 0 && !is_null($this->currentEmployee)) {
             $this->levels -= $this->countSubordinateLevel($this->currentEmployee);
+            if($this->checkCycle($employee)) {
+                $fail('There is subordination cycle');
+            }
+        }
 
         if($this->levels < 1)
             $fail('Too great a level of subordination');
