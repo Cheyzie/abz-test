@@ -12,16 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class EmployeeFactory extends Factory
 {
-
-    public function head_level(?int $id): int {
-        $level = 0;
-        $user_id = User::where('id', $id)->first()?->head_id;
-        while ($user_id) {
-            $level++;
-            $user_id = User::where('id', $user_id)->first()?->head_id;
-        }
-        return $level;
-    }
+    private string $phoneFormat = '+380 (##) ### ## ##';
 
     /**
      * Define the model's default state.
@@ -34,10 +25,10 @@ class EmployeeFactory extends Factory
             'full_name' => fake()->name(),
             'position_id' => Position::all()->random()->id,
             'hire_date' => fake()->date(),
-            'phone_number' => fake()->phoneNumber(),
+            'phone_number' => fake()->unique()->numerify($this->phoneFormat),
             'email' => fake()->unique()->safeEmail(),
-            'salary' => fake()->randomFloat(2, max: 500000),
-            'photo' => fake()->imageUrl(300, 300, 'human'),
+            'salary' => fake()->randomFloat(3, max: 500),
+            'photo' => null,
             'head_id' => null,
             'admin_created_id' => User::all()->random()->id,
             'admin_updated_id' => User::all()->random()->id,

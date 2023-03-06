@@ -72,7 +72,7 @@
 
         <div class="form-group">
             <label for="salary">Salary, $</label>
-            <input type="number" class="form-control" id="salary" name="salary" step="0.01" value="{{ old('salary') ?? $employee->salary }}">
+            <input type="number" class="form-control" id="salary" name="salary" step="0.001" value="{{ old('salary') ?? $employee->salary }}">
             @error('salary')
             <div class="alert alert-danger"> {{$message}} </div>
             @enderror

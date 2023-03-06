@@ -40,7 +40,7 @@
         <div class="form-group">
             <label for="formGroupExampleInput">Phone</label>
             <input type="text" class="form-control" id="phone" name="phone_number" value="{{ old('phone_number') }}">
-            @error('phone')
+            @error('phone_number')
             <div class="alert alert-danger"> {{$message}} </div>
             @enderror
             <small class="form-text text-muted text-right">
@@ -71,7 +71,7 @@
 
         <div class="form-group">
             <label for="salary">Salary, $</label>
-            <input type="number" class="form-control" id="salary" name="salary" step="0.01" value="{{ old('salary') }}">
+            <input type="number" class="form-control" id="salary" name="salary" step="0.001" value="{{ old('salary') }}">
             @error('salary')
             <div class="alert alert-danger"> {{$message}} </div>
             @enderror

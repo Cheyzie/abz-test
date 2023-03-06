@@ -57,7 +57,7 @@ class EmployeesDataTable extends DataTable
     {
         return [
             Column::make('photo')
-                ->render('() => `<img src="${full.photo}" alt="photo" width="50" height="50" class="rounded-circle">`')
+                ->render('() => full.photo ? `<img src="${full.photo}" alt="photo" width="50" height="50" class="rounded-circle">` : ""')
                 ->orderable(false),
             Column::make('full_name'),
             Column::make('position.name')->title('Position'),

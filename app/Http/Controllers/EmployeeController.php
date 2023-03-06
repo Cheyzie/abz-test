@@ -29,7 +29,7 @@ class EmployeeController extends Controller
             : null;
         unset($data['head']);
 
-        if($data['photo']) {
+        if(key_exists('photo', $data)) {
             $data['photo'] = PhotoService::save($request->file('photo'));
         }
 
@@ -57,7 +57,7 @@ class EmployeeController extends Controller
             : null;
         unset($data['head']);
 
-        if($data['photo']) {
+        if(key_exists('photo', $data)) {
             $data['photo'] = PhotoService::save($request->file('photo'));
         }
 

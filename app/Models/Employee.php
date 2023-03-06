@@ -45,7 +45,7 @@ class Employee extends Model
     protected function photo(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => Storage::has($value) ? asset(Storage::url($value)) : $value,
+            get: fn (?string $value) => ($value && Storage::has($value)) ? asset(Storage::url($value)) : $value,
         );
     }
 

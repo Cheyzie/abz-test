@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('full_name');
             $table->foreignId('position_id')->constrained('positions')->cascadeOnDelete();
             $table->date('hire_date');
-            $table->string('phone_number');
-            $table->string('email');
-            $table->decimal('salary');
+            $table->string('phone_number')->unique();
+            $table->string('email')->unique();
+            $table->decimal('salary', 6, 3);
             $table->string('photo')->nullable();
             $table->foreignId('head_id')->nullable()->constrained('employees')->nullOnDelete();
             $table->foreignId('admin_created_id')->nullable()->constrained('users')->nullOnDelete();

@@ -26,7 +26,7 @@
 
     </div>
 
-    {{ $dataTable->table(['class' => 'table table-striped', 'id' => 'dataTable']) }}
+    {{ $dataTable->table(['class' => 'table table-striped']) }}
 @stop
 
 @section('css')
@@ -122,7 +122,7 @@
                     success: (result) => {
                         if(result.deleted ) {
                             modal.style.display = "none";
-                            $('#dataTable').DataTable().ajax.reload();
+                            $('#employees-table').DataTable().ajax.reload();
                         }
                     }
                 })
