@@ -22,14 +22,14 @@ class EmployeeController extends Controller
 
     public function store(EmployeeCreateRequest $request) {
         $data = $request->validated();
-        if(key_exists('head', $data)) {
-            $head = Employee::where('full_name', $data['head'])->first();
 
-            unset($data['head']);
-            $data['head_id'] = $head->id;
-        }
+        $data['head_id'] = $data['head']
+            ? Employee::where('full_name', $data['head'])
+                ->first()->id
+            : null;
+        unset($data['head']);
 
-        if(key_exists('photo', $data)) {
+        if($data['photo']) {
             $data['photo'] = PhotoService::save($request->file('photo'));
         }
 
@@ -51,13 +51,13 @@ class EmployeeController extends Controller
     public function update(Employee $employee, EmployeeUpdateRequest $request) {
         $data = $request->validated();
 
-        if(key_exists('head', $data)) {
-            $head = Employee::where('full_name', $data['head'])->first();
-            unset($data['head']);
-            $data['head_id'] = $head->id;
-        }
+        $data['head_id'] = $data['head']
+            ? Employee::where('full_name', $data['head'])
+                ->first()->id
+            : null;
+        unset($data['head']);
 
-        if(key_exists('photo', $data)) {
+        if($data['photo']) {
             $data['photo'] = PhotoService::save($request->file('photo'));
         }
 

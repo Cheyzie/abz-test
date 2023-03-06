@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Employee;
+use App\Rules\SubordinationLevels;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EmployeeUpdateRequest extends FormRequest
@@ -28,7 +30,11 @@ class EmployeeUpdateRequest extends FormRequest
             'email' => ['required', 'email'],
             'position_id' => ['required', 'exists:positions,id'],
             'salary' => ['required', 'decimal:0,2', 'between:0,500'],
-            'head' => ['nullable', 'exists:employees,full_name'],
+            'head' => [
+                'nullable',
+                'exists:employees,full_name',
+                new SubordinationLevels(currentEmployee: Employee::where('id', $this->route('employee'))->first())
+            ],
             'hire_date' => ['required', 'date']
         ];
     }

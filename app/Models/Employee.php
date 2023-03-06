@@ -38,7 +38,7 @@ class Employee extends Model
     protected static function booted()
     {
         static::deleting(function (Employee $employee) {
-            $employee->subordinate()->update(['head_id'=> $employee->head?->id]);
+            $employee->subordinates()->update(['head_id'=> $employee->head?->id]);
         });
     }
 
@@ -57,7 +57,7 @@ class Employee extends Model
         return $this->belongsTo(Employee::class, 'head_id');
     }
 
-    public function subordinate() {
+    public function subordinates() {
         return $this->hasMany(Employee::class, 'head_id');
     }
 }
