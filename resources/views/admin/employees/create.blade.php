@@ -14,7 +14,7 @@
             <div class="mb-5">
                 <label for="Image" class="form-label d-block">Photo</label>
                 <img id="frame" class="img-fluid center-cropped" src="https://dummyimage.com/300x300/272d31/fff.png&text=Photo+placeholder"/>
-                <input class="form-control-file" type="file" id="photo" name="photo" onchange="preview(this)" value="{{ old('photo') }}">
+                <input class="form-control-file" type="file" id="photo" name="photo" onchange="preview(this)">
                 @error('photo')
                 <div class="alert alert-danger"> {{$message}} </div>
                 @enderror
