@@ -13,7 +13,7 @@
         <div class="form-group">
             <div class="mb-5">
                 <label for="Image" class="form-label d-block">Photo</label>
-                <img id="frame" class="img-fluid center-cropped" src="https://dummyimage.com/300x300/272d31/fff.png&text=Photo+placeholder"/>
+                <img id="frame" class="img-fluid mb-2 center-cropped" src="https://dummyimage.com/300x300/272d31/fff.png&text=Photo+placeholder"/>
                 <input class="form-control-file" type="file" id="photo" name="photo" onchange="preview(this)">
                 @error('photo')
                 <div class="alert alert-danger"> {{$message}} </div>
@@ -92,8 +92,10 @@
             <div class="alert alert-danger"> {{$message}} </div>
             @enderror
         </div>
-
-        <input type="submit" class="btn btn-secondary" value="Add employee">
+        <div class="d-flex flex-row-reverse p-2">
+            <input type="submit" class="btn btn-secondary ml-2" value="Save">
+            <a class="btn btn-outline-secondary " href="{{ url('admin/employees') }}">Cancel</a>
+        </div>
     </form>
 
 @stop

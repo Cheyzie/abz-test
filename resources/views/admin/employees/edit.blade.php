@@ -109,7 +109,10 @@
                 <b>Admin updated ID:</b> {{$employee->admin_updated_id}}
             </div>
         </div>
-        <input type="submit" class="btn btn-secondary" value="Save employee">
+        <div class="d-flex flex-row-reverse p-2">
+            <input type="submit" class="btn btn-secondary ml-2" value="Save">
+            <a class="btn btn-outline-secondary " href="{{ url('admin/employees') }}">Cancel</a>
+        </div>
     </form>
 
 @stop
